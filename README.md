@@ -4,6 +4,10 @@
 - Configured Tailwind CSS
 - Header
 - Login Form
+- Routing of App
+- Sign Up Form
+- Form Validation
+- useRef Hook
 
 # Features
 - Login/Sign Up
