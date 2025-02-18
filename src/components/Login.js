@@ -15,7 +15,7 @@ const Login = () => {
     setName(value);
 
     if(value.length > 0 && value.length <= 3) {
-      setErrorMessage("Name should be more 3 characters")
+      setErrorMessage("Required more than 3 letters in Name");
     } else {
       setErrorMessage('');
     }
