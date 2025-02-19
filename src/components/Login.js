@@ -1,12 +1,25 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
+  // const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
@@ -14,24 +27,71 @@ const Login = () => {
     const value = e.target.value;
     setName(value);
 
-    if(value.length > 0 && value.length <= 3) {
+    if (value.length > 0 && value.length <= 3) {
       setErrorMessage("Required more than 3 letters in Name");
     } else {
-      setErrorMessage('');
+      setErrorMessage("");
     }
-
-  }
+  };
 
   const handleButtonClick = () => {
-    console.log(email.current.value);
-    console.log(password.current.value);
-
-    const message = checkValidData(
-      email.current.value,
-      password.current.value
-    );
-    console.log(message);
+    const message = checkValidData(email.current.value, password.current.value);
+    console.log(message)
     setErrorMessage(message);
+    if (message) return;
+
+    if (!isSignInForm) {
+      //* Sign Up Form
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: name,
+            photoURL: "https://avatars.githubusercontent.com/u/92149824?v=4",
+          }).then(() => {
+            const { uid, email, displayName, photoURL } = user;
+                    dispatch(
+                      addUser({
+                        uid: uid,
+                        email: email,
+                        displayName: displayName,
+                        photoURL: photoURL,
+                      })
+                    );
+            navigate("/browse");
+            }).catch((error) => {
+              setErrorMessage(error.message);
+            });
+          console.log(user);
+          navigate("/browse");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
+    } else {
+      //* Sign In Form
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browse");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
+    }
   };
 
   const handleSignUp = () => {
@@ -80,15 +140,15 @@ const Login = () => {
           className="p-4 my-6 bg-red-700 w-full rounded-lg"
           onClick={handleButtonClick}
         >
-          Sign In
+          {!isSignInForm ? "Sign Up" : "Sign In"}
         </button>
         <p>
-          New to Netflix?
+          {!isSignInForm ? "Already an User?" : "New to Netflix?"}
           <span
-            className="text-red-700 mr-[15px] cursor-pointer font-bold"
+            className="text-red-500 ml-[5px] cursor-pointer font-bold hover:underline"
             onClick={handleSignUp}
           >
-            Sign Up Now
+            {!isSignInForm ? "Sign In Now" : "Sign Up Now"}
           </span>
         </p>
       </form>
