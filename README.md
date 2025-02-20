@@ -18,7 +18,7 @@
 - Bugfix: Sign up user display name and profile pic update
 - Bugfix: If the user is not logged in, do not redirect to the browse and vice-versa
 - Unsubscribed to the onAuthStateChange is called
-
+- Created Constants file and added APIs
 
 # Features
 - Login/Sign Up
