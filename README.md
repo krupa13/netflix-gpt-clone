@@ -19,6 +19,15 @@
 - Bugfix: If the user is not logged in, do not redirect to the browse and vice-versa
 - Unsubscribed to the onAuthStateChange is called
 - Created Constants file and added APIs
+- Register TMDB API & create an api & get access token
+- Get data from TMDB now playing movies list
+- Planned for MainContainer and Secondary Conainer
+- Created Movie Slice
+- Custom Hook for Now play movie
+- Fetch Data for Movie Trailer
+- Update store with movie data trailer
+- Embedded the youtube video and added autoplay and mute it
+- Used Tailwind CSS to make the background trailer good
 
 # Features
 - Login/Sign Up
