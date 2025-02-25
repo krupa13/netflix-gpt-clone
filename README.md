@@ -1,4 +1,4 @@
-# Netflix GPT
+# Netflix CLONE
 
 - Create React APP
 - Configured Tailwind CSS
@@ -28,6 +28,12 @@
 - Update store with movie data trailer
 - Embedded the youtube video and added autoplay and mute it
 - Used Tailwind CSS to make the background trailer good
+- Built Secondary Component
+- Built Movie Card
+- Built Movie List
+- TMDB Image CDN URL
+- Modified the browse page with Tailwind CSS
+- Created Custom Hooks
 
 # Features
 - Login/Sign Up
