@@ -34,6 +34,9 @@
 - TMDB Image CDN URL
 - Modified the browse page with Tailwind CSS
 - Created Custom Hooks
+- GPT Search Bar
+- GPT Search Page
+- Added Multi-Lingual Feature
 
 # Features
 - Login/Sign Up
